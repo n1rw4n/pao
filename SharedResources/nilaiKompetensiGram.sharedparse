@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BWSharedResource xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <name>nilaiKompetensiGram</name>
+    <resourceType>ae.shared.ParseSharedResource</resourceType>
+    <config xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <FormatType>Delimiter separated</FormatType>
+        <ColumnSeparator>|</ColumnSeparator>
+        <ColSeparatorRule>Treat all characters as entered as a single column separator string</ColSeparatorRule>
+        <LineSeparator>
+</LineSeparator>
+        <FillCharacter>Space</FillCharacter>
+        <LineLength>3</LineLength>
+        <DataFormat>
+            <xsd:element name="root">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="asessment_id" type="xsd:string"/>
+                        <xsd:element name="activity_id" type="xsd:string"/>
+                        <xsd:element name="catalog_id" type="xsd:string"/>
+                        <xsd:element name="d" type="xsd:string"/>
+                        <xsd:element name="e" type="xsd:string"/>
+                        <xsd:element name="f" type="xsd:string"/>
+                        <xsd:element name="g" type="xsd:string"/>
+                        <xsd:element name="h" type="xsd:string"/>
+                        <xsd:element name="i" type="xsd:string"/>
+                        <xsd:element name="j" type="xsd:string"/>
+                        <xsd:element name="k" type="xsd:string"/>
+                        <xsd:element name="l" type="xsd:string"/>
+                        <xsd:element name="m" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </DataFormat>
+    </config>
+</BWSharedResource>

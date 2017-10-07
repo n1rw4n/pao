@@ -1,0 +1,2022 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/namespaces/tnt/plugins/file" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/file/v2" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:XL="java://com.xl.aid.CustomFunction" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <pd:name>HasilScan/hasil_scan_kostik.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startX>80</pd:startX>
+    <pd:startY>63</pd:startY>
+    <pd:returnBindings/>
+    <pd:endName>End</pd:endName>
+    <pd:endX>704</pd:endX>
+    <pd:endY>120</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1504445621505</pd:targetNamespace>
+    <pd:activity name="Parse Data">
+        <pd:type>com.tibco.plugin.parse.ParseActivity</pd:type>
+        <pd:resourceType>ae.activities.ParseActivity</pd:resourceType>
+        <pd:x>306</pd:x>
+        <pd:y>63</pd:y>
+        <config>
+            <InputType>String</InputType>
+            <Encoding>ASCII</Encoding>
+            <ParseSharedConfig>/SharedResources/scanTestDataFormat-kostik.sharedparse</ParseSharedConfig>
+        </config>
+        <pd:inputBindings>
+            <Input>
+                <text>
+                    <xsl:value-of select="$Read-File/ns1:ReadActivityOutputTextClass/fileContent/textContent"/>
+                </text>
+                <noOfRecords>
+                    <xsl:value-of select="10000"/>
+                </noOfRecords>
+            </Input>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Read File">
+        <pd:type>com.tibco.plugin.file.FileReadActivity</pd:type>
+        <pd:resourceType>ae.activities.FileReadActivity</pd:resourceType>
+        <pd:x>187</pd:x>
+        <pd:y>62</pd:y>
+        <config>
+            <encoding>text</encoding>
+        </config>
+        <pd:inputBindings>
+            <ns:ReadActivityInputClass>
+                <fileName>
+                    <xsl:value-of select="'I:\kemenkes\ist\KOSTIK.csv'"/>
+                </fileName>
+            </ns:ReadActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:group name="Group (1)">
+        <pd:type>com.tibco.pe.core.TransactionGroup</pd:type>
+        <pd:resourceType>ae.process.group</pd:resourceType>
+        <pd:x>259</pd:x>
+        <pd:y>197</pd:y>
+        <pd:width>1532</pd:width>
+        <pd:height>488</pd:height>
+        <pd:collapsedWidth>57</pd:collapsedWidth>
+        <pd:collapsedHeight>70</pd:collapsedHeight>
+        <pd:groupVariables/>
+        <pd:joinToggle>inherit</pd:joinToggle>
+        <config>
+            <pd:groupType>transactionGroup</pd:groupType>
+            <pd:serializable>false</pd:serializable>
+            <pd:transactionType>JDBCTransaction</pd:transactionType>
+            <pd:includeCheckpoint>false</pd:includeCheckpoint>
+        </config>
+        <pd:inputBindings/>
+        <pd:expanded>true</pd:expanded>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>Group</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>Group</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:group name="Group">
+            <pd:type>com.tibco.pe.core.LoopGroup</pd:type>
+            <pd:resourceType>ae.process.group</pd:resourceType>
+            <pd:x>280</pd:x>
+            <pd:y>236</pd:y>
+            <pd:width>1469</pd:width>
+            <pd:height>417</pd:height>
+            <pd:collapsedWidth>57</pd:collapsedWidth>
+            <pd:collapsedHeight>70</pd:collapsedHeight>
+            <pd:groupVariables/>
+            <pd:joinToggle>inherit</pd:joinToggle>
+            <config>
+                <pd:groupType>inputLoop</pd:groupType>
+                <pd:serializable>false</pd:serializable>
+                <pd:over>$Parse-Data/Output/Rows/root</pd:over>
+                <pd:iterationElementSlot>iter</pd:iterationElementSlot>
+                <pd:indexSlot>idx</pd:indexSlot>
+                <pd:activityOutputName/>
+                <pd:accumulateOutput>false</pd:accumulateOutput>
+            </config>
+            <pd:inputBindings/>
+            <pd:expanded>true</pd:expanded>
+            <pd:transition>
+                <pd:from>start</pd:from>
+                <pd:to>Get Project Asessment ID</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>SUB-TEST-5</pd:from>
+                <pd:to>end</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>R1C1</pd:from>
+                <pd:to>R1C2</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>R1C2</pd:from>
+                <pd:to>R1C3</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>R1C3</pd:from>
+                <pd:to>R2C1</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>R2C1</pd:from>
+                <pd:to>R2C2</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>R2C2</pd:from>
+                <pd:to>R2C3</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>R2C3</pd:from>
+                <pd:to>R3C1</pd:to>
+                <pd:xpathDescription>SUB3_FC</pd:xpathDescription>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>R3C1</pd:from>
+                <pd:to>R3C2</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>R3C2</pd:from>
+                <pd:to>R3C3</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>R3C3</pd:from>
+                <pd:to>R4C1</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>R4C1</pd:from>
+                <pd:to>R4C2</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>R4C2</pd:from>
+                <pd:to>R4C3</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>R4C3</pd:from>
+                <pd:to>R5C1</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>R5C1</pd:from>
+                <pd:to>R5C2</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>R5C2</pd:from>
+                <pd:to>R5C3</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>R5C3</pd:from>
+                <pd:to>R6C1</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>R6C1</pd:from>
+                <pd:to>R6C2</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>R6C2</pd:from>
+                <pd:to>R6C3</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>R6C3</pd:from>
+                <pd:to>R7C1</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>R7C1</pd:from>
+                <pd:to>R7C2</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>R7C2</pd:from>
+                <pd:to>R7C3</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>R7C3</pd:from>
+                <pd:to>R8C1</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>R8C1</pd:from>
+                <pd:to>R8C2</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>R8C2</pd:from>
+                <pd:to>R8C3</pd:to>
+                <pd:xpathDescription>SUB9_BC</pd:xpathDescription>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>R8C3</pd:from>
+                <pd:to>NOMOR TEST</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>NOMOR TEST</pd:from>
+                <pd:to>TANGGAL-TEST</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>TANGGAL-TEST</pd:from>
+                <pd:to>TINGKAT PENDIDIKAN</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>TINGKAT PENDIDIKAN</pd:from>
+                <pd:to>USIA</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>Get Project Asessment ID</pd:from>
+                <pd:to>R1C1</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>USIA</pd:from>
+                <pd:to>JENIS KELAMIN</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>JENIS KELAMIN</pd:from>
+                <pd:to>SUB-TEST-5</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:activity name="R1C1">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>484</pd:x>
+                <pd:y>314</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`project_assessment_result` (`project_assessment_id`, `type`, `key`, `value`, `attribute_3`) VALUES (?,?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>project_assessment_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>attribute_3</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <project_assessment_id>
+                            <xsl:value-of select="$Get-Project-Asessment-ID/root/proeject_asessment_id"/>
+                        </project_assessment_id>
+                        <type>
+                            <xsl:value-of select="'disc'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'R1C1'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="$iter/root/R1C1"/>
+                        </value>
+                        <attribute_3>
+                            <xsl:value-of select="'KOSTIK'"/>
+                        </attribute_3>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="R1C2">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>612</pd:x>
+                <pd:y>316</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`project_assessment_result` (`project_assessment_id`, `type`, `key`, `value`, `attribute_3`) VALUES (?,?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>project_assessment_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>attribute_3</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <project_assessment_id>
+                            <xsl:value-of select="$Get-Project-Asessment-ID/root/proeject_asessment_id"/>
+                        </project_assessment_id>
+                        <type>
+                            <xsl:value-of select="'disc'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'R1C2'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="$iter/root/R1C2"/>
+                        </value>
+                        <attribute_3>
+                            <xsl:value-of select="'KOSTIK'"/>
+                        </attribute_3>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="R1C3">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>716</pd:x>
+                <pd:y>316</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`project_assessment_result` (`project_assessment_id`, `type`, `key`, `value`, `attribute_3`) VALUES (?,?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>project_assessment_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>attribute_3</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <project_assessment_id>
+                            <xsl:value-of select="$Get-Project-Asessment-ID/root/proeject_asessment_id"/>
+                        </project_assessment_id>
+                        <type>
+                            <xsl:value-of select="'disc'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'R1C3'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="$iter/root/R1C3"/>
+                        </value>
+                        <attribute_3>
+                            <xsl:value-of select="'KOSTIK'"/>
+                        </attribute_3>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="R2C1">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>835</pd:x>
+                <pd:y>317</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`project_assessment_result` (`project_assessment_id`, `type`, `key`, `value`, `attribute_3`) VALUES (?,?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>project_assessment_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>attribute_3</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <project_assessment_id>
+                            <xsl:value-of select="$Get-Project-Asessment-ID/root/proeject_asessment_id"/>
+                        </project_assessment_id>
+                        <type>
+                            <xsl:value-of select="'disc'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'R2C1'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="$iter/root/R2C1"/>
+                        </value>
+                        <attribute_3>
+                            <xsl:value-of select="'KOSTIK'"/>
+                        </attribute_3>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="R2C3">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>1075</pd:x>
+                <pd:y>318</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`project_assessment_result` (`project_assessment_id`, `type`, `key`, `value`, `attribute_3`) VALUES (?,?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>project_assessment_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>attribute_3</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <project_assessment_id>
+                            <xsl:value-of select="$Get-Project-Asessment-ID/root/proeject_asessment_id"/>
+                        </project_assessment_id>
+                        <type>
+                            <xsl:value-of select="'disc'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'R2C3'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="$iter/root/R2C3"/>
+                        </value>
+                        <attribute_3>
+                            <xsl:value-of select="'KOSTIK'"/>
+                        </attribute_3>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="R3C1">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>1213</pd:x>
+                <pd:y>315</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`project_assessment_result` (`project_assessment_id`, `type`, `key`, `value`, `attribute_3`) VALUES (?,?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>project_assessment_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>attribute_3</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <project_assessment_id>
+                            <xsl:value-of select="$Get-Project-Asessment-ID/root/proeject_asessment_id"/>
+                        </project_assessment_id>
+                        <type>
+                            <xsl:value-of select="'disc'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'R3C1'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="$iter/root/R3C1"/>
+                        </value>
+                        <attribute_3>
+                            <xsl:value-of select="'KOSTIK'"/>
+                        </attribute_3>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="R4C1">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>1212</pd:x>
+                <pd:y>442</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`project_assessment_result` (`project_assessment_id`, `type`, `key`, `value`, `attribute_3`) VALUES (?,?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>project_assessment_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>attribute_3</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <project_assessment_id>
+                            <xsl:value-of select="$Get-Project-Asessment-ID/root/proeject_asessment_id"/>
+                        </project_assessment_id>
+                        <type>
+                            <xsl:value-of select="'disc'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'R4C1'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="$iter/root/R4C1"/>
+                        </value>
+                        <attribute_3>
+                            <xsl:value-of select="'KOSTIK'"/>
+                        </attribute_3>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="R3C3">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>1339</pd:x>
+                <pd:y>438</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`project_assessment_result` (`project_assessment_id`, `type`, `key`, `value`, `attribute_3`) VALUES (?,?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>project_assessment_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>attribute_3</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <project_assessment_id>
+                            <xsl:value-of select="$Get-Project-Asessment-ID/root/proeject_asessment_id"/>
+                        </project_assessment_id>
+                        <type>
+                            <xsl:value-of select="'disc'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'R3C3'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="$iter/root/R3C3"/>
+                        </value>
+                        <attribute_3>
+                            <xsl:value-of select="'KOSTIK'"/>
+                        </attribute_3>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="R6C2">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>388</pd:x>
+                <pd:y>425</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`project_assessment_result` (`project_assessment_id`, `type`, `key`, `value`, `attribute_3`) VALUES (?,?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>project_assessment_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>attribute_3</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <project_assessment_id>
+                            <xsl:value-of select="$Get-Project-Asessment-ID/root/proeject_asessment_id"/>
+                        </project_assessment_id>
+                        <type>
+                            <xsl:value-of select="'disc'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'R6C2'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="$iter/root/R6C2"/>
+                        </value>
+                        <attribute_3>
+                            <xsl:value-of select="'KOSTIK'"/>
+                        </attribute_3>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="R3C2">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>1338</pd:x>
+                <pd:y>313</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`project_assessment_result` (`project_assessment_id`, `type`, `key`, `value`, `attribute_3`) VALUES (?,?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>project_assessment_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>attribute_3</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <project_assessment_id>
+                            <xsl:value-of select="$Get-Project-Asessment-ID/root/proeject_asessment_id"/>
+                        </project_assessment_id>
+                        <type>
+                            <xsl:value-of select="'disc'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'R3C2'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="$iter/root/R3C2"/>
+                        </value>
+                        <attribute_3>
+                            <xsl:value-of select="'KOSTIK'"/>
+                        </attribute_3>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="R2C2">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>964</pd:x>
+                <pd:y>318</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`project_assessment_result` (`project_assessment_id`, `type`, `key`, `value`, `attribute_3`) VALUES (?,?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>project_assessment_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>attribute_3</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <project_assessment_id>
+                            <xsl:value-of select="$Get-Project-Asessment-ID/root/proeject_asessment_id"/>
+                        </project_assessment_id>
+                        <type>
+                            <xsl:value-of select="'disc'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'R2C2'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="$iter/root/R2C2"/>
+                        </value>
+                        <attribute_3>
+                            <xsl:value-of select="'KOSTIK'"/>
+                        </attribute_3>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="R5C2">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>717</pd:x>
+                <pd:y>423</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`project_assessment_result` (`project_assessment_id`, `type`, `key`, `value`, `attribute_3`) VALUES (?,?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>project_assessment_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>attribute_3</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <project_assessment_id>
+                            <xsl:value-of select="$Get-Project-Asessment-ID/root/proeject_asessment_id"/>
+                        </project_assessment_id>
+                        <type>
+                            <xsl:value-of select="'disc'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'R5C2'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="$iter/root/R5C2"/>
+                        </value>
+                        <attribute_3>
+                            <xsl:value-of select="'KOSTIK'"/>
+                        </attribute_3>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="R6C1">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>492</pd:x>
+                <pd:y>424</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`project_assessment_result` (`project_assessment_id`, `type`, `key`, `value`, `attribute_3`) VALUES (?,?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>project_assessment_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>attribute_3</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <project_assessment_id>
+                            <xsl:value-of select="$Get-Project-Asessment-ID/root/proeject_asessment_id"/>
+                        </project_assessment_id>
+                        <type>
+                            <xsl:value-of select="'disc'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'R6C1'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="$iter/root/R6C1"/>
+                        </value>
+                        <attribute_3>
+                            <xsl:value-of select="'KOSTIK'"/>
+                        </attribute_3>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="R6C3">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>392</pd:x>
+                <pd:y>558</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`project_assessment_result` (`project_assessment_id`, `type`, `key`, `value`, `attribute_3`) VALUES (?,?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>project_assessment_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>attribute_3</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <project_assessment_id>
+                            <xsl:value-of select="$Get-Project-Asessment-ID/root/proeject_asessment_id"/>
+                        </project_assessment_id>
+                        <type>
+                            <xsl:value-of select="'disc'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'R6C3'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="$iter/root/R6C3"/>
+                        </value>
+                        <attribute_3>
+                            <xsl:value-of select="'KOSTIK'"/>
+                        </attribute_3>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="R5C3">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>606</pd:x>
+                <pd:y>428</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`project_assessment_result` (`project_assessment_id`, `type`, `key`, `value`, `attribute_3`) VALUES (?,?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>project_assessment_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>attribute_3</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <project_assessment_id>
+                            <xsl:value-of select="$Get-Project-Asessment-ID/root/proeject_asessment_id"/>
+                        </project_assessment_id>
+                        <type>
+                            <xsl:value-of select="'disc'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'R5C3'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="$iter/root/R5C3"/>
+                        </value>
+                        <attribute_3>
+                            <xsl:value-of select="'KOSTIK'"/>
+                        </attribute_3>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="R5C1">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>819</pd:x>
+                <pd:y>431</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`project_assessment_result` (`project_assessment_id`, `type`, `key`, `value`, `attribute_3`) VALUES (?,?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>project_assessment_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>attribute_3</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <project_assessment_id>
+                            <xsl:value-of select="$Get-Project-Asessment-ID/root/proeject_asessment_id"/>
+                        </project_assessment_id>
+                        <type>
+                            <xsl:value-of select="'disc'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'R5C1'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="$iter/root/R5C1"/>
+                        </value>
+                        <attribute_3>
+                            <xsl:value-of select="'KOSTIK'"/>
+                        </attribute_3>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="R4C3">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>950</pd:x>
+                <pd:y>426</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`project_assessment_result` (`project_assessment_id`, `type`, `key`, `value`, `attribute_3`) VALUES (?,?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>project_assessment_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>attribute_3</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <project_assessment_id>
+                            <xsl:value-of select="$Get-Project-Asessment-ID/root/proeject_asessment_id"/>
+                        </project_assessment_id>
+                        <type>
+                            <xsl:value-of select="'disc'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'R4C3'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="$iter/root/R4C3"/>
+                        </value>
+                        <attribute_3>
+                            <xsl:value-of select="'KOSTIK'"/>
+                        </attribute_3>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="R4C2">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>1099</pd:x>
+                <pd:y>441</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`project_assessment_result` (`project_assessment_id`, `type`, `key`, `value`, `attribute_3`) VALUES (?,?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>project_assessment_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>attribute_3</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <project_assessment_id>
+                            <xsl:value-of select="$Get-Project-Asessment-ID/root/proeject_asessment_id"/>
+                        </project_assessment_id>
+                        <type>
+                            <xsl:value-of select="'disc'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'R4C2'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="$iter/root/R4C2"/>
+                        </value>
+                        <attribute_3>
+                            <xsl:value-of select="'KOSTIK'"/>
+                        </attribute_3>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="R7C1">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>509</pd:x>
+                <pd:y>567</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`project_assessment_result` (`project_assessment_id`, `type`, `key`, `value`, `attribute_3`) VALUES (?,?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>project_assessment_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>attribute_3</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <project_assessment_id>
+                            <xsl:value-of select="$Get-Project-Asessment-ID/root/proeject_asessment_id"/>
+                        </project_assessment_id>
+                        <type>
+                            <xsl:value-of select="'disc'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'R7C1'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="$iter/root/R7C1"/>
+                        </value>
+                        <attribute_3>
+                            <xsl:value-of select="'KOSTIK'"/>
+                        </attribute_3>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="R7C2">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>619</pd:x>
+                <pd:y>552</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`project_assessment_result` (`project_assessment_id`, `type`, `key`, `value`, `attribute_3`) VALUES (?,?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>project_assessment_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>attribute_3</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <project_assessment_id>
+                            <xsl:value-of select="$Get-Project-Asessment-ID/root/proeject_asessment_id"/>
+                        </project_assessment_id>
+                        <type>
+                            <xsl:value-of select="'disc'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'R7C2'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="$iter/root/R7C2"/>
+                        </value>
+                        <attribute_3>
+                            <xsl:value-of select="'KOSTIK'"/>
+                        </attribute_3>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="R7C3">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>735</pd:x>
+                <pd:y>549</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`project_assessment_result` (`project_assessment_id`, `type`, `key`, `value`, `attribute_3`) VALUES (?,?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>project_assessment_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>attribute_3</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <project_assessment_id>
+                            <xsl:value-of select="$Get-Project-Asessment-ID/root/proeject_asessment_id"/>
+                        </project_assessment_id>
+                        <type>
+                            <xsl:value-of select="'disc'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'R7C3'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="$iter/root/R7C3"/>
+                        </value>
+                        <attribute_3>
+                            <xsl:value-of select="'KOSTIK'"/>
+                        </attribute_3>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="R8C1">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>882</pd:x>
+                <pd:y>557</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`project_assessment_result` (`project_assessment_id`, `type`, `key`, `value`, `attribute_3`) VALUES (?,?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>project_assessment_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>attribute_3</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <project_assessment_id>
+                            <xsl:value-of select="$Get-Project-Asessment-ID/root/proeject_asessment_id"/>
+                        </project_assessment_id>
+                        <type>
+                            <xsl:value-of select="'disc'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'R8C1'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="$iter/root/R8C1"/>
+                        </value>
+                        <attribute_3>
+                            <xsl:value-of select="'KOSTIK'"/>
+                        </attribute_3>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="R8C2">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>1002</pd:x>
+                <pd:y>557</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`project_assessment_result` (`project_assessment_id`, `type`, `key`, `value`, `attribute_3`) VALUES (?,?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>project_assessment_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>attribute_3</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <project_assessment_id>
+                            <xsl:value-of select="$Get-Project-Asessment-ID/root/proeject_asessment_id"/>
+                        </project_assessment_id>
+                        <type>
+                            <xsl:value-of select="'disc'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'R8C2'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="$iter/root/R8C2"/>
+                        </value>
+                        <attribute_3>
+                            <xsl:value-of select="'KOSTIK'"/>
+                        </attribute_3>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="R8C3">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>1128</pd:x>
+                <pd:y>553</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`project_assessment_result` (`project_assessment_id`, `type`, `key`, `value`, `attribute_3`) VALUES (?,?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>project_assessment_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>attribute_3</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <project_assessment_id>
+                            <xsl:value-of select="$Get-Project-Asessment-ID/root/proeject_asessment_id"/>
+                        </project_assessment_id>
+                        <type>
+                            <xsl:value-of select="'disc'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'R8C3'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="$iter/root/R8C3"/>
+                        </value>
+                        <attribute_3>
+                            <xsl:value-of select="'KOSTIK'"/>
+                        </attribute_3>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="NOMOR TEST">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>1236</pd:x>
+                <pd:y>552</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`project_assessment_result` (`project_assessment_id`, `type`, `key`, `value`, `attribute_3`) VALUES (?,?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>project_assessment_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>attribute_3</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <project_assessment_id>
+                            <xsl:value-of select="$Get-Project-Asessment-ID/root/proeject_asessment_id"/>
+                        </project_assessment_id>
+                        <type>
+                            <xsl:value-of select="'inventory'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'nomor_test'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="$iter/root/NOMOR-TEST"/>
+                        </value>
+                        <attribute_3>
+                            <xsl:value-of select="'KOSTIK'"/>
+                        </attribute_3>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="TANGGAL-TEST">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>1366</pd:x>
+                <pd:y>552</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`project_assessment_result` (`project_assessment_id`, `type`, `key`, `value`, `attribute_3`) VALUES (?,?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>project_assessment_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>attribute_3</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <project_assessment_id>
+                            <xsl:value-of select="$Get-Project-Asessment-ID/root/proeject_asessment_id"/>
+                        </project_assessment_id>
+                        <type>
+                            <xsl:value-of select="'inventory'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'tanggal_test'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="$iter/root/TANGGAL-TEST"/>
+                        </value>
+                        <attribute_3>
+                            <xsl:value-of select="'KOSTIK'"/>
+                        </attribute_3>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="TINGKAT PENDIDIKAN">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>1486</pd:x>
+                <pd:y>551</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`project_assessment_result` (`project_assessment_id`, `type`, `key`, `value`, `attribute_3`) VALUES (?,?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>project_assessment_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>attribute_3</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <project_assessment_id>
+                            <xsl:value-of select="$Get-Project-Asessment-ID/root/proeject_asessment_id"/>
+                        </project_assessment_id>
+                        <type>
+                            <xsl:value-of select="'inventory'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'tingkat_pendidikan'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="$iter/root/TINGKAT-PENDIDIKAN"/>
+                        </value>
+                        <attribute_3>
+                            <xsl:value-of select="'KOSTIK'"/>
+                        </attribute_3>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="Get Project Asessment ID">
+                <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+                <pd:resourceType>ae.process.subprocess</pd:resourceType>
+                <pd:x>359</pd:x>
+                <pd:y>323</pd:y>
+                <config>
+                    <processName>/HasilScan/SubPRocess/Get Project Asessment ID.process</processName>
+                </config>
+                <pd:inputBindings>
+                    <root>
+                        <nip>
+                            <xsl:value-of select="$iter/root/NIP"/>
+                        </nip>
+                    </root>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="USIA">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>1484</pd:x>
+                <pd:y>445</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`project_assessment_result` (`project_assessment_id`, `type`, `key`, `value`, `attribute_3`) VALUES (?,?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>project_assessment_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>attribute_3</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <project_assessment_id>
+                            <xsl:value-of select="$Get-Project-Asessment-ID/root/proeject_asessment_id"/>
+                        </project_assessment_id>
+                        <type>
+                            <xsl:value-of select="'inventory'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'USIA'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="$iter/root/USIA"/>
+                        </value>
+                        <attribute_3>
+                            <xsl:value-of select="'KOSTIK'"/>
+                        </attribute_3>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="JENIS KELAMIN">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>1483</pd:x>
+                <pd:y>320</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`project_assessment_result` (`project_assessment_id`, `type`, `key`, `value`, `attribute_3`) VALUES (?,?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>project_assessment_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>attribute_3</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <project_assessment_id>
+                            <xsl:value-of select="$Get-Project-Asessment-ID/root/proeject_asessment_id"/>
+                        </project_assessment_id>
+                        <type>
+                            <xsl:value-of select="'inventory'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'Jenis_kelamin'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="$iter/root/JENIS-KELAMIN"/>
+                        </value>
+                        <attribute_3>
+                            <xsl:value-of select="'KOSTIK'"/>
+                        </attribute_3>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="SUB-TEST-5">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>1639</pd:x>
+                <pd:y>317</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`project_assessment_result` (`project_assessment_id`, `type`, `key`, `value`, `attribute_3`) VALUES (?,?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>project_assessment_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>attribute_3</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <project_assessment_id>
+                            <xsl:value-of select="$Get-Project-Asessment-ID/root/proeject_asessment_id"/>
+                        </project_assessment_id>
+                        <type>
+                            <xsl:value-of select="'inventory'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'sub5'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="$iter/root/SUB-TEST-5"/>
+                        </value>
+                        <attribute_3>
+                            <xsl:value-of select="'KOSTIK'"/>
+                        </attribute_3>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+        </pd:group>
+    </pd:group>
+    <pd:activity name="Make-Lowercase-1">
+        <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+        <pd:x>875</pd:x>
+        <pd:y>134</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <emptyStrAsNil>false</emptyStrAsNil>
+            <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+            <statement>UPDATE  `ppsdm_paodb`.`project_assessment_result` SET `key` = LOWER(`key`) where attribute_3 = 'KOSTIK'</statement>
+            <Prepared_Param_DataType/>
+        </config>
+        <pd:inputBindings>
+            <jdbcUpdateActivityInput/>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>Read File</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Read File</pd:from>
+        <pd:to>Parse Data</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Group (1)</pd:from>
+        <pd:to>Make-Lowercase-1</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Parse Data</pd:from>
+        <pd:to>Group (1)</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Make-Lowercase-1</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

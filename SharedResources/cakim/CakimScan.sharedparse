@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BWSharedResource xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <name>CakimScan</name>
+    <resourceType>ae.shared.ParseSharedResource</resourceType>
+    <config xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <FormatType>Delimiter separated</FormatType>
+        <ColumnSeparator>|</ColumnSeparator>
+        <ColSeparatorRule>Treat all characters as entered as a single column separator string</ColSeparatorRule>
+        <LineSeparator>
+</LineSeparator>
+        <FillCharacter>Space</FillCharacter>
+        <LineLength>1</LineLength>
+        <DataFormat>
+            <xsd:element name="root">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="NOMOR_PSIKOTES" type="xsd:string"/>
+                        <xsd:element name="NOMOR_REGISTRASI" type="xsd:string"/>
+                        <xsd:element name="NAMA_PESERTA" type="xsd:string"/>
+                        <xsd:element name="USIA" type="xsd:string"/>
+                        <xsd:element name="JENIS_KELAMIN" type="xsd:string"/>
+                        <xsd:element name="TINGKAT_PENDIDIKAN" type="xsd:string"/>
+                        <xsd:element name="TANGGAL_TES" type="xsd:string"/>
+                        <xsd:element name="KODE_LOKASI_TES" type="xsd:string"/>
+                        <xsd:element name="KODE_BUKU" type="xsd:string"/>
+                        <xsd:element name="SUBTEST_1_TC" type="xsd:string"/>
+                        <xsd:element name="SUBTEST_1_FC" type="xsd:string"/>
+                        <xsd:element name="SUBTEST_1_BC" type="xsd:string"/>
+                        <xsd:element name="SUBTEST_2_TC" type="xsd:string"/>
+                        <xsd:element name="SUBTEST_2_FC" type="xsd:string"/>
+                        <xsd:element name="SUBTEST_2_BC" type="xsd:string"/>
+                        <xsd:element name="SUBTEST_3_TC" type="xsd:string"/>
+                        <xsd:element name="SUBTEST_3_FC" type="xsd:string"/>
+                        <xsd:element name="SUBTEST_3_BC" type="xsd:string"/>
+                        <xsd:element name="SUBTEST_4_TC" type="xsd:string"/>
+                        <xsd:element name="SUBTEST_4_FC" type="xsd:string"/>
+                        <xsd:element name="SUBTEST_4_BC" type="xsd:string"/>
+                        <xsd:element name="SUBTEST_5_TC" type="xsd:string"/>
+                        <xsd:element name="SUBTEST_5_FC" type="xsd:string"/>
+                        <xsd:element name="SUBTEST_5_BC" type="xsd:string"/>
+                        <xsd:element name="SUBTEST_6_TC" type="xsd:string"/>
+                        <xsd:element name="SUBTEST_6_FC" type="xsd:string"/>
+                        <xsd:element name="SUBTEST_6_BC" type="xsd:string"/>
+                        <xsd:element name="SUBTEST_7_TC" type="xsd:string"/>
+                        <xsd:element name="SUBTEST_7_FC" type="xsd:string"/>
+                        <xsd:element name="SUBTEST_7_BC" type="xsd:string"/>
+                        <xsd:element name="SUBTEST_8_TC" type="xsd:string"/>
+                        <xsd:element name="SUBTEST_8_FC" type="xsd:string"/>
+                        <xsd:element name="SUBTEST_8_BC" type="xsd:string"/>
+                        <xsd:element name="SUBTEST_9_TC" type="xsd:string"/>
+                        <xsd:element name="SUBTEST_9_FC" type="xsd:string"/>
+                        <xsd:element name="SUBTEST_9_BC" type="xsd:string"/>
+                        <xsd:element name="SUBTEST_10_TC" type="xsd:string"/>
+                        <xsd:element name="SUBTEST_10_FC" type="xsd:string"/>
+                        <xsd:element name="SUBTEST_10_BC" type="xsd:string"/>
+                        <xsd:element name="SUBTEST_11" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </DataFormat>
+    </config>
+</BWSharedResource>

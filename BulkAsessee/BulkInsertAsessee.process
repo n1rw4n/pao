@@ -1,0 +1,1310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/namespaces/tnt/plugins/file" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/file/v2" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <pd:name>BulkAsessee/BulkInsertAsessee.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startX>1071</pd:startX>
+    <pd:startY>87</pd:startY>
+    <pd:returnBindings/>
+    <pd:endName>End</pd:endName>
+    <pd:endX>1627</pd:endX>
+    <pd:endY>394</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1503841291540</pd:targetNamespace>
+    <pd:activity name="Parse Data">
+        <pd:type>com.tibco.plugin.parse.ParseActivity</pd:type>
+        <pd:resourceType>ae.activities.ParseActivity</pd:resourceType>
+        <pd:x>675</pd:x>
+        <pd:y>86</pd:y>
+        <config>
+            <InputType>String</InputType>
+            <Encoding>ASCII</Encoding>
+            <ParseSharedConfig>/SharedResources/Assessee Data Format.sharedparse</ParseSharedConfig>
+        </config>
+        <pd:inputBindings>
+            <Input>
+                <text>
+                    <xsl:value-of select="$Read-File/ns1:ReadActivityOutputTextClass/fileContent/textContent"/>
+                </text>
+                <noOfRecords>
+                    <xsl:value-of select="10000"/>
+                </noOfRecords>
+            </Input>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Read File">
+        <pd:type>com.tibco.plugin.file.FileReadActivity</pd:type>
+        <pd:resourceType>ae.activities.FileReadActivity</pd:resourceType>
+        <pd:x>871</pd:x>
+        <pd:y>85</pd:y>
+        <config>
+            <encoding>text</encoding>
+        </config>
+        <pd:inputBindings>
+            <ns:ReadActivityInputClass>
+                <fileName>
+                    <xsl:value-of select="'I:\kemenkes\BulkAsessee\BulkRegisterAsesssee.csv'"/>
+                </fileName>
+            </ns:ReadActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:group name="Group">
+        <pd:type>com.tibco.pe.core.TransactionGroup</pd:type>
+        <pd:resourceType>ae.process.group</pd:resourceType>
+        <pd:x>102</pd:x>
+        <pd:y>175</pd:y>
+        <pd:width>1230</pd:width>
+        <pd:height>551</pd:height>
+        <pd:collapsedWidth>57</pd:collapsedWidth>
+        <pd:collapsedHeight>70</pd:collapsedHeight>
+        <pd:groupVariables/>
+        <pd:joinToggle>inherit</pd:joinToggle>
+        <config>
+            <pd:groupType>transactionGroup</pd:groupType>
+            <pd:serializable>false</pd:serializable>
+            <pd:transactionType>JDBCTransaction</pd:transactionType>
+            <pd:includeCheckpoint>false</pd:includeCheckpoint>
+        </config>
+        <pd:inputBindings/>
+        <pd:expanded>true</pd:expanded>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>Group (1)</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>Group (1)</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:group name="Group (1)">
+            <pd:type>com.tibco.pe.core.LoopGroup</pd:type>
+            <pd:resourceType>ae.process.group</pd:resourceType>
+            <pd:x>123</pd:x>
+            <pd:y>205</pd:y>
+            <pd:width>1167</pd:width>
+            <pd:height>480</pd:height>
+            <pd:collapsedWidth>57</pd:collapsedWidth>
+            <pd:collapsedHeight>70</pd:collapsedHeight>
+            <pd:groupVariables/>
+            <pd:joinToggle>inherit</pd:joinToggle>
+            <config>
+                <pd:groupType>inputLoop</pd:groupType>
+                <pd:serializable>false</pd:serializable>
+                <pd:over>$Parse-Data/Output/Rows/root</pd:over>
+                <pd:iterationElementSlot>iter</pd:iterationElementSlot>
+                <pd:indexSlot>idx</pd:indexSlot>
+                <pd:activityOutputName/>
+                <pd:accumulateOutput>false</pd:accumulateOutput>
+            </config>
+            <pd:inputBindings/>
+            <pd:expanded>true</pd:expanded>
+            <pd:transition>
+                <pd:from>start</pd:from>
+                <pd:to>GetSequence</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>projectAssessment</pd:from>
+                <pd:to>end</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>home address</pd:from>
+                <pd:to>education</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>education</pd:from>
+                <pd:to>birthplace</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>birthplace</pd:from>
+                <pd:to>working level</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>working level</pd:from>
+                <pd:to>nip</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>nip</pd:from>
+                <pd:to>prospect_position</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>prospect_position</pd:from>
+                <pd:to>satuan Kerja</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>current_position</pd:from>
+                <pd:to>rumpun</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>configModuleProject</pd:from>
+                <pd:to>home address</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>ScheduleDateTime</pd:from>
+                <pd:to>place</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>place</pd:from>
+                <pd:to>general</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>general</pd:from>
+                <pd:to>assessment status</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>assessment status</pd:from>
+                <pd:to>Asessor</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>GetSequence</pd:from>
+                <pd:to>InsertProfile</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>InsertProfile</pd:from>
+                <pd:to>configModuleProject</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>project-role</pd:from>
+                <pd:to>project_activity</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>project_activity</pd:from>
+                <pd:to>ScheduleDateTime</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>satuan Kerja</pd:from>
+                <pd:to>unit</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>unit</pd:from>
+                <pd:to>current_position</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>Asessor</pd:from>
+                <pd:to>get_catalog_id</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>rumpun</pd:from>
+                <pd:to>project-role</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>get_catalog_id</pd:from>
+                <pd:to>projectAssessment</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:activity name="Asessor">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>1173</pd:x>
+                <pd:y>303</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`project_activity_meta` (`project_activity_id`, `type`, `key`, `value`) VALUES (?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>project_activity_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <project_activity_id>
+                            <xsl:value-of select="$GetSequence/root/maxProjectActivity"/>
+                        </project_activity_id>
+                        <type>
+                            <xsl:value-of select="'general'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'assessor'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="tib:trim($iter/root/assessorID)"/>
+                        </value>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="assessment status">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>1065</pd:x>
+                <pd:y>303</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`project_activity_meta` (`project_activity_id`, `type`, `key`, `value`) VALUES (?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>project_activity_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <project_activity_id>
+                            <xsl:value-of select="$GetSequence/root/maxProjectActivity"/>
+                        </project_activity_id>
+                        <type>
+                            <xsl:value-of select="'assessment'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'status'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="'new'"/>
+                        </value>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="birthplace">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>354</pd:x>
+                <pd:y>441</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`profile_meta` (`profile_id`, `type`, `key`, `value`) VALUES (?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>profile_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <profile_id>
+                            <xsl:value-of select="$GetSequence/root/maxID"/>
+                        </profile_id>
+                        <type>
+                            <xsl:value-of select="'personal'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'birthplace'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="tib:trim($iter/root/birthplace)"/>
+                        </value>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="configModuleProject">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>218</pd:x>
+                <pd:y>441</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`profile_meta` (`profile_id`, `type`, `key`, `value`, `attribute_1`) VALUES (?,?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>profile_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>Prepared_Param_1</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <profile_id>
+                            <xsl:value-of select="$GetSequence/root/maxID"/>
+                        </profile_id>
+                        <type>
+                            <xsl:value-of select="'config'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'module'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="'project'"/>
+                        </value>
+                        <Prepared_Param_1>
+                            <xsl:value-of select="'active'"/>
+                        </Prepared_Param_1>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="current_position">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>685</pd:x>
+                <pd:y>446</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`profile_meta` (`profile_id`, `type`, `key`, `value`) VALUES (?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>profile_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <profile_id>
+                            <xsl:value-of select="$GetSequence/root/maxID"/>
+                        </profile_id>
+                        <type>
+                            <xsl:value-of select="'work'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'current_position'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="tib:trim($iter/root/current_position)"/>
+                        </value>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="education">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>354</pd:x>
+                <pd:y>565</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`profile_meta` (`profile_id`, `type`, `key`, `value`) VALUES (?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>profile_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <profile_id>
+                            <xsl:value-of select="$GetSequence/root/maxID"/>
+                        </profile_id>
+                        <type>
+                            <xsl:value-of select="'education'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'latest'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="tib:trim($iter/root/education)"/>
+                        </value>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="general">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>1065</pd:x>
+                <pd:y>441</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`project_activity_meta` (`project_activity_id`, `type`, `key`, `value`) VALUES (?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>project_activity_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <project_activity_id>
+                            <xsl:value-of select="$GetSequence/root/maxProjectActivity"/>
+                        </project_activity_id>
+                        <type>
+                            <xsl:value-of select="'general'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'assessee'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="$GetSequence/root/maxID"/>
+                        </value>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="GetSequence">
+                <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+                <pd:resourceType>ae.process.subprocess</pd:resourceType>
+                <pd:x>224</pd:x>
+                <pd:y>319</pd:y>
+                <config>
+                    <processName>/BulkAsessee/GetSequence.process</processName>
+                </config>
+                <pd:inputBindings>
+                    <root>
+                        <rumpun>
+                            <xsl:value-of select="$iter/root/rumpun"/>
+                        </rumpun>
+                        <level>
+                            <xsl:value-of select="$iter/root/work_level"/>
+                        </level>
+                    </root>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="home address">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>221</pd:x>
+                <pd:y>565</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`profile_meta` (`profile_id`, `type`, `key`, `value`) VALUES (?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>profile_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <profile_id>
+                            <xsl:value-of select="$GetSequence/root/maxID"/>
+                        </profile_id>
+                        <type>
+                            <xsl:value-of select="'address'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'home_address'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="tib:trim($iter/root/home_address)"/>
+                        </value>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="InsertProfile">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>467</pd:x>
+                <pd:y>315</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>insert into profile (id,first_name,last_name,birthdate,gender) values (?,?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>first_name</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>last_name</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>birthdate</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>gender</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <id>
+                            <xsl:value-of select="$GetSequence/root/maxID"/>
+                        </id>
+                        <first_name>
+                            <xsl:value-of select="tib:trim($iter/root/first_name)"/>
+                        </first_name>
+                        <last_name>
+                            <xsl:choose>
+                                <xsl:when test="exists(tib:trim($iter/root/last_name))">
+                                    <xsl:value-of select="tib:trim($iter/root/last_name)"/>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </last_name>
+                        <birthdate>
+                            <xsl:value-of select="$iter/root/birthdate"/>
+                        </birthdate>
+                        <gender>
+                            <xsl:value-of select="tib:trim($iter/root/gender)"/>
+                        </gender>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="nip">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>490</pd:x>
+                <pd:y>565</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`profile_meta` (`profile_id`, `type`, `key`, `value`) VALUES (?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>profile_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <profile_id>
+                            <xsl:value-of select="$GetSequence/root/maxID"/>
+                        </profile_id>
+                        <type>
+                            <xsl:value-of select="'work'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'nip'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="tib:trim($iter/root/nip)"/>
+                        </value>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="place">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>948</pd:x>
+                <pd:y>439</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`project_activity_meta` (`project_activity_id`, `type`, `key`, `value`) VALUES (?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>project_activity_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <project_activity_id>
+                            <xsl:value-of select="$GetSequence/root/maxProjectActivity"/>
+                        </project_activity_id>
+                        <type>
+                            <xsl:value-of select="'schedule'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'place'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="tib:trim($iter/root/place)"/>
+                        </value>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="project-role">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>577</pd:x>
+                <pd:y>308</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`profile_meta` (`profile_id`, `type`, `key`, `value`) VALUES (?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>profile_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <profile_id>
+                            <xsl:value-of select="$GetSequence/root/maxID"/>
+                        </profile_id>
+                        <type>
+                            <xsl:value-of select="'project-role'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="1"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="'assessee'"/>
+                        </value>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="project_activity">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>773</pd:x>
+                <pd:y>307</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`project_activity` (`id`, `project_id`, `name`, `status`) VALUES (?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>project_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>name</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>status</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <id>
+                            <xsl:value-of select="$GetSequence/root/maxProjectActivity"/>
+                        </id>
+                        <project_id>
+                            <xsl:value-of select="1"/>
+                        </project_id>
+                        <name>
+                            <xsl:value-of select="tib:trim($iter/root/first_name)"/>
+                        </name>
+                        <status>
+                            <xsl:value-of select="'active'"/>
+                        </status>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="prospect_position">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>585</pd:x>
+                <pd:y>565</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`profile_meta` (`profile_id`, `type`, `key`, `value`) VALUES (?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>profile_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <profile_id>
+                            <xsl:value-of select="$GetSequence/root/maxID"/>
+                        </profile_id>
+                        <type>
+                            <xsl:value-of select="'work'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'prospect_position'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="tib:trim($iter/root/prospect_position)"/>
+                        </value>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="ScheduleDateTime">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>945</pd:x>
+                <pd:y>303</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`project_activity_meta` (`project_activity_id`, `type`, `key`, `value`) VALUES (?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>project_activity_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <project_activity_id>
+                            <xsl:value-of select="$GetSequence/root/maxProjectActivity"/>
+                        </project_activity_id>
+                        <type>
+                            <xsl:value-of select="'schedule'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'scheduled'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="$iter/root/ScheduleDateTime"/>
+                        </value>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="working level">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>484</pd:x>
+                <pd:y>441</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`profile_meta` (`profile_id`, `type`, `key`, `value`) VALUES (?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>profile_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <profile_id>
+                            <xsl:value-of select="$GetSequence/root/maxID"/>
+                        </profile_id>
+                        <type>
+                            <xsl:value-of select="'work'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'level'"/>
+                        </key>
+                        <value>
+                            <xsl:value-of select="tib:trim($iter/root/work_level)"/>
+                        </value>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="satuan Kerja">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>690</pd:x>
+                <pd:y>563</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`profile_meta` (`profile_id`, `type`, `key`, `value`) VALUES (?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>profile_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <profile_id>
+                            <xsl:value-of select="$GetSequence/root/maxID"/>
+                        </profile_id>
+                        <type>
+                            <xsl:value-of select="'work'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'satuan_kerja'"/>
+                        </key>
+                        <value>
+                            <xsl:choose>
+                                <xsl:when test="exists(tib:trim($iter/root/satuan_kerja))">
+                                    <xsl:value-of select="tib:trim($iter/root/satuan_kerja)"/>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </value>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="unit">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>773</pd:x>
+                <pd:y>506</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`profile_meta` (`profile_id`, `type`, `key`, `value`) VALUES (?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>profile_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <profile_id>
+                            <xsl:value-of select="$GetSequence/root/maxID"/>
+                        </profile_id>
+                        <type>
+                            <xsl:value-of select="'work'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'unit'"/>
+                        </key>
+                        <value>
+                            <xsl:choose>
+                                <xsl:when test="exists(tib:trim($iter/root/unit))">
+                                    <xsl:value-of select="tib:trim($iter/root/unit)"/>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </value>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="projectAssessment">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>1159</pd:x>
+                <pd:y>586</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`project_assessment` (`activity_id`, `catalog_id`, `status`, `created_at` ) VALUES (?,?, ?, now());</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>activity_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>catalog_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>status</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <activity_id>
+                            <xsl:value-of select="$GetSequence/root/maxProjectActivity"/>
+                        </activity_id>
+                        <catalog_id>
+                            <xsl:value-of select="$get_catalog_id/root/catalog_id"/>
+                        </catalog_id>
+                        <status>
+                            <xsl:value-of select="'active'"/>
+                        </status>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="rumpun">
+                <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+                <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+                <pd:x>575</pd:x>
+                <pd:y>441</pd:y>
+                <config>
+                    <timeout>10</timeout>
+                    <commit>false</commit>
+                    <emptyStrAsNil>false</emptyStrAsNil>
+                    <jdbcSharedConfig>/SharedResources/ppsdm_paodb.sharedjdbc</jdbcSharedConfig>
+                    <statement>INSERT INTO `ppsdm_paodb`.`profile_meta` (`profile_id`, `type`, `key`, `value`) VALUES (?,?,?,?)</statement>
+                    <Prepared_Param_DataType>
+                        <parameter>
+                            <parameterName>profile_id</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>type</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>key</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                        <parameter>
+                            <parameterName>value</parameterName>
+                            <dataType>VARCHAR</dataType>
+                        </parameter>
+                    </Prepared_Param_DataType>
+                </config>
+                <pd:inputBindings>
+                    <jdbcUpdateActivityInput>
+                        <profile_id>
+                            <xsl:value-of select="$GetSequence/root/maxID"/>
+                        </profile_id>
+                        <type>
+                            <xsl:value-of select="'work'"/>
+                        </type>
+                        <key>
+                            <xsl:value-of select="'rumpun'"/>
+                        </key>
+                        <value>
+                            <xsl:choose>
+                                <xsl:when test="exists(tib:trim($iter/root/rumpun))">
+                                    <xsl:value-of select="tib:trim($iter/root/rumpun)"/>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </value>
+                    </jdbcUpdateActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="get_catalog_id">
+                <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+                <pd:resourceType>ae.process.subprocess</pd:resourceType>
+                <pd:x>1161</pd:x>
+                <pd:y>446</pd:y>
+                <config>
+                    <processName>/BulkAsessee/get_catalog_id.process</processName>
+                </config>
+                <pd:inputBindings>
+                    <root>
+                        <rumpun>
+                            <xsl:value-of select="$iter/root/rumpun"/>
+                        </rumpun>
+                        <level>
+                            <xsl:value-of select="$iter/root/work_level"/>
+                        </level>
+                    </root>
+                </pd:inputBindings>
+            </pd:activity>
+        </pd:group>
+    </pd:group>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>Read File</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Read File</pd:from>
+        <pd:to>Parse Data</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Parse Data</pd:from>
+        <pd:to>Group</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Group</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BWSharedResource xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <name>Assessee Data Format</name>
+    <resourceType>ae.shared.ParseSharedResource</resourceType>
+    <config xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <FormatType>Delimiter separated</FormatType>
+        <ColumnSeparator>|</ColumnSeparator>
+        <ColSeparatorRule>Treat all characters as entered as a single column separator string</ColSeparatorRule>
+        <LineSeparator>
+</LineSeparator>
+        <FillCharacter>Space</FillCharacter>
+        <LineLength>1</LineLength>
+        <DataFormat>
+            <xsd:element name="root">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="first_name" type="xsd:string"/>
+                        <xsd:element name="last_name" type="xsd:string" minOccurs="0"/>
+                        <xsd:element name="birthdate" type="xsd:string"/>
+                        <xsd:element name="gender" type="xsd:string"/>
+                        <xsd:element name="home_address" type="xsd:string"/>
+                        <xsd:element name="education" type="xsd:string"/>
+                        <xsd:element name="birthplace" type="xsd:string"/>
+                        <xsd:element name="work_level" type="xsd:string"/>
+                        <xsd:element name="nip" type="xsd:string"/>
+                        <xsd:element name="prospect_position" type="xsd:string"/>
+                        <xsd:element name="current_position" type="xsd:string"/>
+                        <xsd:element name="ScheduleDateTime" type="xsd:string"/>
+                        <xsd:element name="place" type="xsd:string"/>
+                        <xsd:element name="assessorID" type="xsd:string"/>
+                        <xsd:element name="satuan_kerja" type="xsd:string" minOccurs="0"/>
+                        <xsd:element name="unit" type="xsd:string" minOccurs="0"/>
+                        <xsd:element name="rumpun" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </DataFormat>
+    </config>
+</BWSharedResource>

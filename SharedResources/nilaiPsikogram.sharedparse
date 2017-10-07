@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BWSharedResource xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <name>nilaiPsikogram</name>
+    <resourceType>ae.shared.ParseSharedResource</resourceType>
+    <config xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <FormatType>Delimiter separated</FormatType>
+        <ColumnSeparator>|</ColumnSeparator>
+        <ColSeparatorRule>Treat all characters as entered as a single column separator string</ColSeparatorRule>
+        <LineSeparator>
+</LineSeparator>
+        <FillCharacter>Space</FillCharacter>
+        <LineLength>2</LineLength>
+        <DataFormat>
+            <xsd:element name="root">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="asessment_id" type="xsd:string"/>
+                        <xsd:element name="activity_id" type="xsd:string"/>
+                        <xsd:element name="catalog_id" type="xsd:string"/>
+                        <xsd:element name="inteligensi_umum" type="xsd:string"/>
+                        <xsd:element name="berpikir_analitis" type="xsd:string"/>
+                        <xsd:element name="logika_berfikir" type="xsd:string"/>
+                        <xsd:element name="kemampuan_belajar" type="xsd:string"/>
+                        <xsd:element name="eq" type="xsd:string"/>
+                        <xsd:element name="sistematika_kerja" type="xsd:string"/>
+                        <xsd:element name="tempo_kerja" type="xsd:string"/>
+                        <xsd:element name="ketelitian" type="xsd:string"/>
+                        <xsd:element name="ketekunan" type="xsd:string"/>
+                        <xsd:element name="komunikasi_efektif" type="xsd:string"/>
+                        <xsd:element name="motivasi" type="xsd:string"/>
+                        <xsd:element name="konsep_diri" type="xsd:string"/>
+                        <xsd:element name="empati" type="xsd:string"/>
+                        <xsd:element name="pemahaman_sosial" type="xsd:string"/>
+                        <xsd:element name="pengaturan_diri" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </DataFormat>
+    </config>
+</BWSharedResource>

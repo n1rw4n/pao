@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BWSharedResource xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <name>scanTestDataFormat-prestatif</name>
+    <resourceType>ae.shared.ParseSharedResource</resourceType>
+    <config xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <FormatType>Delimiter separated</FormatType>
+        <ColumnSeparator>|</ColumnSeparator>
+        <ColSeparatorRule>Treat all characters as entered as a single column separator string</ColSeparatorRule>
+        <LineSeparator>
+</LineSeparator>
+        <FillCharacter>Space</FillCharacter>
+        <LineLength>3</LineLength>
+        <DataFormat>
+            <xsd:element name="root">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="NOMOR-TEST" type="xsd:string"/>
+                        <xsd:element name="NAMA-PESERTA" type="xsd:string"/>
+                        <xsd:element name="NIP" type="xsd:string"/>
+                        <xsd:element name="TINGKATAN-JABATAN" type="xsd:string"/>
+                        <xsd:element name="USIA" type="xsd:string"/>
+                        <xsd:element name="TANGGAL-TES" type="xsd:string"/>
+                        <xsd:element name="SUB1_TC" type="xsd:string"/>
+                        <xsd:element name="SUB1_FC" type="xsd:string"/>
+                        <xsd:element name="SUB1_BC" type="xsd:string"/>
+                        <xsd:element name="SUB2_TC" type="xsd:string"/>
+                        <xsd:element name="SUB2_FC" type="xsd:string"/>
+                        <xsd:element name="SUB2_BC" type="xsd:string"/>
+                        <xsd:element name="SUB3_TC" type="xsd:string"/>
+                        <xsd:element name="SUB3_FC" type="xsd:string"/>
+                        <xsd:element name="SUB3_BC" type="xsd:string"/>
+                        <xsd:element name="SUB-TEST-4" type="xsd:string"/>
+                        <xsd:element name="SUB5_TC" type="xsd:string"/>
+                        <xsd:element name="SUB5_FC" type="xsd:string"/>
+                        <xsd:element name="SUB5_BC" type="xsd:string"/>
+                        <xsd:element name="SUB6_TC" type="xsd:string"/>
+                        <xsd:element name="SUB6_FC" type="xsd:string"/>
+                        <xsd:element name="SUB6_BC" type="xsd:string"/>
+                        <xsd:element name="SUB7_TC" type="xsd:string"/>
+                        <xsd:element name="SUB7_FC" type="xsd:string"/>
+                        <xsd:element name="SUB7_BC" type="xsd:string"/>
+                        <xsd:element name="SUB8_TC" type="xsd:string"/>
+                        <xsd:element name="SUB8_FC" type="xsd:string"/>
+                        <xsd:element name="SUB8_BC" type="xsd:string"/>
+                        <xsd:element name="SUB9_TC" type="xsd:string"/>
+                        <xsd:element name="SUB9_FC" type="xsd:string"/>
+                        <xsd:element name="SUB9_BC" type="xsd:string"/>
+                        <xsd:element name="Kraep_Tinggi" type="xsd:string"/>
+                        <xsd:element name="Kraep_Rendah" type="xsd:string"/>
+                        <xsd:element name="Kraep_Teliti" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </DataFormat>
+    </config>
+</BWSharedResource>

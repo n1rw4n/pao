@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BWSharedResource xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <name>scanTestDataFormat-kostik</name>
+    <resourceType>ae.shared.ParseSharedResource</resourceType>
+    <config xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <FormatType>Delimiter separated</FormatType>
+        <ColumnSeparator>|</ColumnSeparator>
+        <ColSeparatorRule>Treat all characters as entered as a single column separator string</ColSeparatorRule>
+        <LineSeparator>
+</LineSeparator>
+        <FillCharacter>Space</FillCharacter>
+        <LineLength>4</LineLength>
+        <DataFormat>
+            <xsd:element name="root">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="NOMOR-TEST" type="xsd:string"/>
+                        <xsd:element name="TANGGAL-TEST" type="xsd:string"/>
+                        <xsd:element name="USIA" type="xsd:string"/>
+                        <xsd:element name="NIP" type="xsd:string"/>
+                        <xsd:element name="TINGKAT-PENDIDIKAN" type="xsd:string"/>
+                        <xsd:element name="JENIS-KELAMIN" type="xsd:string"/>
+                        <xsd:element name="SUB-TEST-5" type="xsd:string"/>
+                        <xsd:element name="R1C1" type="xsd:string"/>
+                        <xsd:element name="R1C2" type="xsd:string"/>
+                        <xsd:element name="R1C3" type="xsd:string"/>
+                        <xsd:element name="R2C1" type="xsd:string"/>
+                        <xsd:element name="R2C2" type="xsd:string"/>
+                        <xsd:element name="R2C3" type="xsd:string"/>
+                        <xsd:element name="R3C1" type="xsd:string"/>
+                        <xsd:element name="R3C2" type="xsd:string"/>
+                        <xsd:element name="R3C3" type="xsd:string"/>
+                        <xsd:element name="R4C1" type="xsd:string"/>
+                        <xsd:element name="R4C2" type="xsd:string"/>
+                        <xsd:element name="R4C3" type="xsd:string"/>
+                        <xsd:element name="R5C1" type="xsd:string"/>
+                        <xsd:element name="R5C2" type="xsd:string"/>
+                        <xsd:element name="R5C3" type="xsd:string"/>
+                        <xsd:element name="R6C1" type="xsd:string"/>
+                        <xsd:element name="R6C2" type="xsd:string"/>
+                        <xsd:element name="R6C3" type="xsd:string"/>
+                        <xsd:element name="R7C1" type="xsd:string"/>
+                        <xsd:element name="R7C2" type="xsd:string"/>
+                        <xsd:element name="R7C3" type="xsd:string"/>
+                        <xsd:element name="R8C1" type="xsd:string"/>
+                        <xsd:element name="R8C2" type="xsd:string"/>
+                        <xsd:element name="R8C3" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </DataFormat>
+    </config>
+</BWSharedResource>
